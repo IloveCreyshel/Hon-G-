@@ -10,24 +10,27 @@
       --secondary-color: #ffb703;
       --bg-overlay: rgba(15, 10, 18, 0.85);
       --card-bg: rgba(255, 255, 255, 0.08);
-      --text-color: #f1faee;
-      /* Floating Emoji Animation */
-.floating-emoji {
-  position: fixed;
-  font-size: 2rem;
-  pointer-events: none;
-  animation: floatUp 3s ease-out forwards;
-  z-index: 9999;
-}
+      --text-color: #f1faee; 
+    }
 
-@keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(0.5);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-150px) scale(1.4);
-    opacity: 0;
+    /* Floating Emoji Animation Styles */
+    .floating-emoji {
+      position: fixed;
+      font-size: 2rem;
+      pointer-events: none;
+      animation: floatUp 3s ease-out forwards;
+      z-index: 9999;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-150px) scale(1.4);
+        opacity: 0;
+      }
     }
 
     * {
@@ -215,9 +218,9 @@
 
     <!-- Interactive Buttons -->
     <div class="button-group">
-      <button class="btn" onclick="showPopup('I can\'t stop thinking about your touch and how amazing it feels to be close to and inside of you.')">A Secret Thought</button>
-      <button class="btn" onclick="showPopup('Tonight is all about us. Name the time, and I\'ll take care of your soft, warm and tasty body...')">Tonight's Plan</button>
-      <button class="btn" onclick="showPopup('Count down until we get to leave the rest of the world behind and focus only on each other\'s needs.')">A Private Invitation</button>
+      <button class="btn" onclick="showPopup('I can\'t stop thinking about your touch and how amazing it feels to be close to and inside of you.', event)">A Secret Thought</button>
+      <button class="btn" onclick="showPopup('Tonight is all about us. Name the time, and I\'ll take care of your soft, warm and tasty body...', event)">Tonight's Plan</button>
+      <button class="btn" onclick="showPopup('Count down until we get to leave the rest of the world behind and focus only on each other\'s needs.', event)">A Private Invitation</button>
     </div>
   </div>
 
