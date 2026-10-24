@@ -108,7 +108,64 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center top; /* Keeps the top part (faces) visible */
+      object-position: center top;
+    }
+
+    /* Question Box Section */
+    .question-box {
+      margin: 25px 0;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 25px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 117, 140, 0.3);
+    }
+
+    .question-box h2 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #ff758c;
+    }
+
+    .choice-group {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #2a9d8f 0%, #2ec4b6 100%);
+      color: white;
+      border: none;
+      padding: 12px 35px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(46, 196, 182, 0.4);
+    }
+
+    .btn-yes:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(46, 196, 182, 0.6);
+    }
+
+    .btn-no {
+      background: linear-gradient(135deg, #e63946 0%, #d62828 100%);
+      color: white;
+      border: none;
+      padding: 12px 35px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
+    }
+
+    .btn-no:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
     }
 
     /* Interactive Buttons */
@@ -117,7 +174,7 @@
       flex-wrap: wrap;
       gap: 15px;
       justify-content: center;
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     .btn {
@@ -225,6 +282,15 @@
       </div>
     </div>
 
+    <!-- Yes / No Choice Section -->
+    <div class="question-box">
+      <h2>Will you let me in tonight?</h2>
+      <div class="choice-group">
+        <button class="btn-yes" onclick="answerQuestion(true, event)">Yes</button>
+        <button class="btn-no" onclick="answerQuestion(false, event)">No</button>
+      </div>
+    </div>
+
     <!-- Interactive Buttons -->
     <div class="button-group">
       <button class="btn" onclick="showPopup('I can\'t stop thinking about your touch and how amazing it feels to be close to and inside of you.', event)">A Secret Thought</button>
@@ -252,16 +318,17 @@
     }
   </script>
   <script>
-  // List of emojis you want to pop up
-  const emojiList = ['💖', '🔥', '💋', '❤️', '🌹', '✨', '🥵'];
+  // Dynamic Emoji Lists
+  const positiveEmojis = ['💖', '🔥', '💋', '❤️', '🌹', '✨', '🥵'];
+  const negativeEmojis = ['🥺', '😭', '💔', '😿', '🌧️', '😢'];
 
-  // Function to create a floating emoji at specific coordinates or random screen position
-  function spawnEmoji(x, y) {
+  // Function to create a floating emoji with optional specific list override
+  function spawnEmoji(x, y, customList) {
+    const listToUse = customList || positiveEmojis;
     const emoji = document.createElement('div');
     emoji.className = 'floating-emoji';
-    emoji.innerText = emojiList[Math.floor(Math.random() * emojiList.length)];
+    emoji.innerText = listToUse[Math.floor(Math.random() * listToUse.length)];
     
-    // If coordinates are provided (like a button click), spawn near click; otherwise random
     if (x && y) {
       emoji.style.left = (x + (Math.random() * 60 - 30)) + 'px';
       emoji.style.top = (y + (Math.random() * 60 - 30)) + 'px';
@@ -272,10 +339,28 @@
 
     document.body.appendChild(emoji);
 
-    // Remove the element after animation finishes
     setTimeout(() => {
       emoji.remove();
     }, 2000);
+  }
+
+  // Handle Yes/No answer clicks
+  function answerQuestion(isYes, event) {
+    const rect = event.target.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    if (isYes) {
+      showPopup("I knew you couldn't resist... Get ready, because I'm going to make you feel incredible tonight. 🔥❤️");
+      for (let i = 0; i < 12; i++) {
+        spawnEmoji(centerX, centerY, positiveEmojis);
+      }
+    } else {
+      showPopup("Are you sure? You know you won't be able to stay away from me for long... 😉💔");
+      for (let i = 0; i < 12; i++) {
+        spawnEmoji(centerX, centerY, negativeEmojis);
+      }
+    }
   }
 
   // Trigger floating emojis automatically when the page loads
@@ -311,19 +396,18 @@
     }
   }
 
-  // Update your existing showPopup function to also trigger an emoji burst on click
+  // Update existing showPopup function to also trigger a positive emoji burst on button click
   const originalShowPopup = showPopup;
   showPopup = function(message, event) {
     originalShowPopup(message);
     
-    // Burst emojis from where she clicked
     if (event) {
       const rect = event.target.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       
       for (let i = 0; i < 8; i++) {
-        spawnEmoji(centerX, centerY);
+        spawnEmoji(centerX, centerY, positiveEmojis);
       }
     }
   };
