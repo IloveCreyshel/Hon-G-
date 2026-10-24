@@ -195,7 +195,15 @@
   </style>
 </head>
 <body>
+<!-- Background Audio -->
+<audio id="bg-music" loop>
+  <source src="your-song.mp3" type="audio/mpeg">
+</audio>
 
+<!-- Audio Control Button -->
+<button id="music-btn" onclick="toggleMusic()" style="position: fixed; top: 20px; right: 20px; background: rgba(255, 117, 140, 0.8); color: white; border: none; padding: 10px 15px; border-radius: 50px; cursor: pointer; font-weight: bold; z-index: 1000; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);">
+  🎵 Play Music
+</button>
   <div class="container">
     <h1>Thinking of You makes me hard...</h1>
     <p class="subtitle">A little space created just for us, Hon.</p>
