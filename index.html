@@ -239,5 +239,58 @@
       document.getElementById('modal').classList.remove('active');
     }
   </script>
+  <script>
+  // List of emojis you want to pop up
+  const emojiList = ['💖', '🔥', '💋', '❤️', '🌹', '✨', '🥵'];
+
+  // Function to create a floating emoji at specific coordinates or random screen position
+  function spawnEmoji(x, y) {
+    const emoji = document.createElement('div');
+    emoji.className = 'floating-emoji';
+    emoji.innerText = emojiList[Math.floor(Math.random() * emojiList.length)];
+    
+    // If coordinates are provided (like a button click), spawn near click; otherwise random
+    if (x && y) {
+      emoji.style.left = (x + (Math.random() * 60 - 30)) + 'px';
+      emoji.style.top = (y + (Math.random() * 60 - 30)) + 'px';
+    } else {
+      emoji.style.left = Math.random() * window.innerWidth + 'px';
+      emoji.style.top = (window.innerHeight - 100) + 'px';
+    }
+
+    document.body.appendChild(emoji);
+
+    // Remove the element after animation finishes
+    setTimeout(() => {
+      emoji.remove();
+    }, 2000);
+  }
+
+  // Trigger floating emojis automatically when the page loads
+  window.addEventListener('load', () => {
+    for (let i = 0; i < 15; i++) {
+      setTimeout(() => {
+        spawnEmoji();
+      }, i * 150);
+    }
+  });
+
+  // Update your existing showPopup function to also trigger an emoji burst on click
+  const originalShowPopup = showPopup;
+  showPopup = function(message, event) {
+    originalShowPopup(message);
+    
+    // Burst emojis from where she clicked
+    if (event) {
+      const rect = event.target.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      for (let i = 0; i < 8; i++) {
+        spawnEmoji(centerX, centerY);
+      }
+    }
+  };
+</script>
 </body>
 </html>
