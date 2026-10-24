@@ -204,6 +204,7 @@
 <button id="music-btn" onclick="toggleMusic()" style="position: fixed; top: 20px; right: 20px; background: rgba(255, 117, 140, 0.8); color: white; border: none; padding: 10px 15px; border-radius: 50px; cursor: pointer; font-weight: bold; z-index: 1000; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);">
   🎵 Play Music
 </button>
+
   <div class="container">
     <h1>Thinking of You makes me hard...</h1>
     <p class="subtitle">A little space created just for us, Hon.</p>
@@ -284,7 +285,31 @@
         spawnEmoji();
       }, i * 150);
     }
+
+    // Attempt to auto-play background music
+    const music = document.getElementById('bg-music');
+    music.volume = 0.5;
+    music.play().then(() => {
+      document.getElementById('music-btn').innerText = '🔊 Pause Music';
+    }).catch(error => {
+      console.log("Autoplay blocked by browser. User interaction needed.");
+      document.getElementById('music-btn').innerText = '🎵 Play Music';
+    });
   });
+
+  // Toggle background music on/off
+  function toggleMusic() {
+    const music = document.getElementById('bg-music');
+    const btn = document.getElementById('music-btn');
+    
+    if (music.paused) {
+      music.play();
+      btn.innerText = '🔊 Pause Music';
+    } else {
+      music.pause();
+      btn.innerText = '🎵 Play Music';
+    }
+  }
 
   // Update your existing showPopup function to also trigger an emoji burst on click
   const originalShowPopup = showPopup;
